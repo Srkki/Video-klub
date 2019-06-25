@@ -53,10 +53,11 @@ namespace VideoKlub
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-        services.AddScoped<IDirectorRepository, DirectorRepository>();
+        //services.AddScoped<IDirectorRepository, DirectorRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
-            services.AddScoped<IActorRepository, ActorRepository>();
+            //services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository <>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

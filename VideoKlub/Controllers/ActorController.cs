@@ -6,9 +6,9 @@ namespace VideoKlub.Controllers
 {
     public class ActorController : Controller
     {
-        private readonly IActorRepository _actorRepository;
+        private readonly IGenericRepository<Actor> _actorRepository;
 
-        public ActorController(IActorRepository _actorRepository)
+        public ActorController(IGenericRepository<Actor> _actorRepository)
         {
             this._actorRepository = _actorRepository;
         }
@@ -32,7 +32,7 @@ namespace VideoKlub.Controllers
         [HttpGet]
         public IActionResult EditActor(int id)
         {
-            return View(_actorRepository.GetActor(id));
+            return View(_actorRepository.GetById(id));
         }
 
         [HttpPost]
@@ -42,7 +42,7 @@ namespace VideoKlub.Controllers
             {
                 _actorRepository.Update(actor);
             }
-            return RedirectToAction("Movie", "Movie");
+            return RedirectToAction("Create", "Movie");
         }
 
         [HttpGet]
@@ -50,7 +50,7 @@ namespace VideoKlub.Controllers
         {
             _actorRepository.Delete(id);
 
-            return RedirectToAction("Movie", "Movie");
+            return RedirectToAction("Create", "Movie");
         }
     }
 }

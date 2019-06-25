@@ -6,9 +6,9 @@ namespace VideoKlub.Controllers
 {
     public class DirectorController : Controller
     {
-        private readonly IDirectorRepository _directorRepository;
+        private readonly IGenericRepository<Director> _directorRepository;
 
-        public DirectorController(IDirectorRepository _director)
+        public DirectorController(IGenericRepository<Director> _director)
         {
             _directorRepository = _director;
         }
@@ -32,7 +32,7 @@ namespace VideoKlub.Controllers
         [HttpGet]
         public IActionResult EditDirector(int id)
         {
-            return View(_directorRepository.GetDirector(id));
+            return View(_directorRepository.GetById(id));
         }
 
         [HttpPost]
@@ -42,7 +42,7 @@ namespace VideoKlub.Controllers
             {
                 _directorRepository.Update(director);
             }
-            return RedirectToAction("Movie", "Movie");
+            return RedirectToAction("Create", "Movie");
         }
 
         [HttpGet]

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VideoKlub.Models;
 using VideoKlub.Repository;
 using VideoKlub.ViewModels;
@@ -11,14 +9,14 @@ namespace VideoKlub.Controllers
 {
     public class MovieController : Controller
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IDirectorRepository _directorRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IActorRepository _actorRepository;
-        public MovieController(IMovieRepository movieRepository,
-                            IDirectorRepository directorRepository,
-                            IGenreRepository genreRepository,
-                            IActorRepository actorRepository)
+        private readonly IGenericRepository<Movie> _movieRepository;
+        private readonly IGenericRepository<Director> _directorRepository;
+        private readonly IGenericRepository<Genre> _genreRepository;
+        private readonly IGenericRepository<Actor> _actorRepository;
+        public MovieController(IGenericRepository<Movie> movieRepository,
+                            IGenericRepository<Director> directorRepository,
+                            IGenericRepository<Genre> genreRepository,
+                            IGenericRepository<Actor> actorRepository)
         {
             _movieRepository = movieRepository;
             _directorRepository = directorRepository;
@@ -35,14 +33,7 @@ namespace VideoKlub.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            MovieDetailsViewModel movieDetailsViewModel = new MovieDetailsViewModel()
-            {
-                Directors = _directorRepository.GetAllDirectors(),
-                Genres = _genreRepository.GetAllGenres(),
-                Actors = _actorRepository.GetAllActors(),
-                Movies = _movieRepository.GetAllMovies()
-            };
-            return View(movieDetailsViewModel);
+            return View(GetAll());
         }
 
         [HttpPost]
@@ -58,17 +49,10 @@ namespace VideoKlub.Controllers
         [HttpGet]
         public IActionResult EditMovie(int id)
         {
-            MovieDetailsViewModel movieDetailsViewModel = new MovieDetailsViewModel()
-            {
-                Directors = _directorRepository.GetAllDirectors(),
-                Genres = _genreRepository.GetAllGenres(),
-                Actors = _actorRepository.GetAllActors(),
-                Movies = _movieRepository.GetAllMovies(),
+            MovieDetailsViewModel moviDetailsVM = GetAll();
+            moviDetailsVM.MovieMovie = GetAllMovieDetailsJoined().Where(m => m.MovieMovie.MovieId == id).SingleOrDefault().MovieMovie;
 
-                MovieMovie = GetAllMovieDetailsJoined().Where(m => m.MovieMovie.MovieId == id).SingleOrDefault().MovieMovie
-            };
-
-            return View(movieDetailsViewModel);
+            return View(moviDetailsVM);
         }
 
         public IActionResult SaveUpdate(MovieDetailsViewModel movieUpdate)
@@ -78,7 +62,6 @@ namespace VideoKlub.Controllers
                 _movieRepository.Update(movieUpdate.MovieMovie);
             }
             return RedirectToAction("Movie", "Movie");
-
         }
 
         [HttpGet]
@@ -86,15 +69,15 @@ namespace VideoKlub.Controllers
         {
             _movieRepository.Delete(id);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Movie", "Movie");
         }
 
         private IEnumerable<MovieDetailsViewModel> GetAllMovieDetailsJoined()
         {
-            List<Movie> movies = _movieRepository.GetAllMovies().ToList();
-            List<Director> directors = _directorRepository.GetAllDirectors().ToList();
-            List<Genre> genres = _genreRepository.GetAllGenres().ToList();
-            List<Actor> actors = _actorRepository.GetAllActors().ToList();
+            List<Movie> movies = _movieRepository.GetAll().ToList();
+            List<Director> directors = _directorRepository.GetAll().ToList();
+            List<Genre> genres = _genreRepository.GetAll().ToList();
+            List<Actor> actors = _actorRepository.GetAll().ToList();
 
             var joinedTbl = from m in movies
                             join d in directors on m.DirectorId equals d.DirectorId
@@ -112,8 +95,19 @@ namespace VideoKlub.Controllers
                                 Genres = genres,
                                 Actors = actors
                             };
-
             return joinedTbl;
+        }
+
+        private MovieDetailsViewModel GetAll()
+        {
+            MovieDetailsViewModel movieDetailsViewModel = new MovieDetailsViewModel()
+            {
+                Directors = _directorRepository.GetAll(),
+                Genres = _genreRepository.GetAll(),
+                Actors = _actorRepository.GetAll(),
+                Movies = _movieRepository.GetAll()
+            };
+            return movieDetailsViewModel;
         }
     }
 }

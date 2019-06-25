@@ -12,14 +12,14 @@ namespace VideoKlub.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IDirectorRepository _directorRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IActorRepository _actorRepository;
-        public HomeController(IMovieRepository movieRepository,
-                            IDirectorRepository directorRepository,
-                            IGenreRepository genreRepository,
-                            IActorRepository actorRepository)
+        private readonly IGenericRepository<Movie> _movieRepository;
+        private readonly IGenericRepository<Director> _directorRepository;
+        private readonly IGenericRepository<Genre> _genreRepository;
+        private readonly IGenericRepository<Actor> _actorRepository;
+        public HomeController(IGenericRepository<Movie> movieRepository,
+                            IGenericRepository<Director> directorRepository,
+                            IGenericRepository<Genre> genreRepository,
+                            IGenericRepository<Actor> actorRepository)
         {
             _movieRepository = movieRepository;
             _directorRepository = directorRepository;
@@ -41,10 +41,10 @@ namespace VideoKlub.Controllers
         
         private IEnumerable<MovieDetailsViewModel> GetAllMovieDetailsJoined()
         {
-            List<Movie> movies = _movieRepository.GetAllMovies().ToList();
-            List<Director> directors = _directorRepository.GetAllDirectors().ToList();
-            List<Genre> genres = _genreRepository.GetAllGenres().ToList();
-            List<Actor> actors = _actorRepository.GetAllActors().ToList();
+            List<Movie> movies = _movieRepository.GetAll().ToList();
+            List<Director> directors = _directorRepository.GetAll().ToList();
+            List<Genre> genres = _genreRepository.GetAll().ToList();
+            List<Actor> actors = _actorRepository.GetAll().ToList();
 
             var joinedTbl = from m in movies
                             join d in directors on m.DirectorId equals d.DirectorId

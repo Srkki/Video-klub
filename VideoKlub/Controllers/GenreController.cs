@@ -10,9 +10,9 @@ namespace VideoKlub.Controllers
 {
     public class GenreController : Controller
     {
-        private readonly IGenreRepository _genreRepository;
+        private readonly IGenericRepository<Genre> _genreRepository;
 
-        public GenreController(IGenreRepository _genreRepository)
+        public GenreController(IGenericRepository<Genre> _genreRepository)
         {
             this._genreRepository = _genreRepository;
         }
@@ -36,7 +36,7 @@ namespace VideoKlub.Controllers
         [HttpGet]
         public IActionResult EditGenre(int id)
         {
-            return View(_genreRepository.GetGenre(id));
+            return View(_genreRepository.GetById(id));
         }
 
         [HttpPost]
@@ -46,7 +46,7 @@ namespace VideoKlub.Controllers
             {
                 _genreRepository.Update(genre);
             }
-            return RedirectToAction("Movie", "Movie");
+            return RedirectToAction("Create", "Movie");
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace VideoKlub.Controllers
         {
             _genreRepository.Delete(id);
 
-            return RedirectToAction("Movie", "Movie");
+            return RedirectToAction("Create", "Movie");
         }
     }
 }

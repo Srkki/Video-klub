@@ -28,14 +28,14 @@
 <div class="d-flex justify-content-center">
     <div>
 
-        <a asp-controller="home" asp-action="add" class="btn btn-primary custom_btn m-2">Cancel</a>
+        <a asp-controller="movie" asp-action="create" class="btn btn-primary custom_btn m-2">Cancel</a>
 
     </div>
-    <div>
+    @*<div>
 
         <form asp-controller="home" asp-action="DeleteDirector" method="POST">
             <input asp-for="@Model.DirectorId" value="@Model.DirectorId" type="hidden" />
             <input type="submit" class="btn btn-danger custom_btn m-2" value="Delete" />
         </form>
-    </div>
+    </div>*@
 </div>
