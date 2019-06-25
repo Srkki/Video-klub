@@ -1,0 +1,15 @@
+﻿@model Genre
+
+    <form asp-controller="genre" asp-action="SaveEditGenre" method="POST" class="my-1">
+        <label asp-for="@Model.GenreName"></label>
+        <input asp-for="@Model.GenreName" type="text" class="form-control" placeholder="Enter genre" />
+        <span asp-validation-for="@Model.GenreName" class="text-danger"></span>
+
+        <label asp-for="@Model.GenreColor"></label>
+        <input asp-for="@Model.GenreColor" type="color" value="@Model.GenreColor" />
+
+        <input asp-for="@Model.GenreId" type="hidden" value="@Model.GenreId" />
+        <div class="mb-1">
+            <input type="submit" class="btn btn-info" />
+        </div>
+    </form>

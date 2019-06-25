@@ -1,0 +1,144 @@
+﻿@model VideoKlub.ViewModels.MovieDetailsViewModel
+
+<a asp-controller="movie" asp-action="movie" class="btn btn-primary">Back</a>
+<div class="my-3 pb-3 border-bottom">
+    <form asp-controller="movie" asp-action="Create" method="POST">
+        <div class="row">
+            <div class="col-4">
+                <input asp-for="@Model.MovieMovie.MovieName" class="form-control" type="text" placeholder="Movie name" />
+                <span asp-validation-for="@Model.MovieMovie.MovieName" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <select class="align-middle w-100 form-control" asp-for="@Model.MovieMovie.DirectorId"
+                        asp-items="@(new SelectList(Model.Directors, "DirectorId", "FirstName"))">
+                    <option>Select director</option>
+                </select>
+                <span asp-validation-for="@Model.MovieMovie.DirectorId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <select class="w-100 form-control" asp-for="@Model.MovieMovie.GenreId" asp-items="@(new SelectList(Model.Genres, "GenreId", "GenreName"))">
+                    <option>Select genre</option>
+                </select>
+            </div>
+
+            <div class="col">
+                <select class="w-100 form-control" asp-for="@Model.MovieMovie.ActorId" asp-items="@(new SelectList(Model.Actors, "ActorId", "FirstName"))">
+                    <option>Select actor</option>
+                </select>
+            </div>
+
+            <div class="col-1">
+                <input type="submit" class="btn btn-info" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Directors:</h4>
+        <div class="border-bottom my-4">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Director item in Model.Directors)
+                    {
+                        <tr>
+                            <td>
+                                @item.FirstName @item.LastName
+                            </td>
+                            <td>
+                                <a asp-controller="director" asp-action="EditDirector" asp-route-id="@item.DirectorId"
+                                   class="btn">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="director" asp-action="DeleteDirector" asp-route-id="@item.DirectorId"
+                                   class="btn" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a asp-controller="director" asp-action="CreateDirector" class="btn btn-primary">Add director</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <h4>Genres:</h4>
+        <div class="border-bottom my-4">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Genre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Genre item in Model.Genres)
+                    {
+                        <tr>
+                            <td style="color: @item.GenreColor">
+                                @item.GenreName
+                            </td>
+                            <td>
+                                <a asp-controller="genre" asp-action="EditGenre" asp-route-id="@item.GenreId"
+                                   class="btn">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="genre" asp-action="DeleteGenre" asp-route-id="@item.GenreId"
+                                   class="btn" onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a asp-controller="genre" asp-action="CreateGenre" class="btn btn-primary">Add genre</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <h4>Actors:</h4>
+        <div class="border-bottom my-4">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Actor item in Model.Actors)
+                    {
+                        <tr>
+                            <td>
+                                @item.FirstName @item.LastName
+                            </td>
+                            <td>
+                                <a asp-controller="actor" asp-action="EditActor" asp-route-id="@item.ActorId"
+                                   class="btn">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="actor" asp-action="DeleteActor" asp-route-id="@item.ActorId"
+                                   class="btn">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a asp-controller="actor" asp-action="CreateActor" class="btn btn-primary">Add actor</a>
+        </div>
+    </div>
+    <hr />
+</div>

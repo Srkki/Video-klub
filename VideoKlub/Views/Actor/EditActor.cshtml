@@ -1,0 +1,18 @@
+﻿@model Actor
+
+    <form asp-controller="actor" asp-action="SaveEditActor" method="POST" class="my-1">
+
+        <label asp-for="@Model.FirstName"></label>
+        <input asp-for="@Model.FirstName" type="text" class="form-control" value="@Model.FirstName" />
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+
+        <div class="mb-1">
+            <label asp-for="@Model.LastName"></label>
+            <input asp-for="@Model.LastName" type="text" class="form-control" value="@Model.LastName" />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <input asp-for="@Model.ActorId" type="hidden" value="@Model.ActorId" />
+        <div class="mb-1">
+            <input type="submit" class="btn btn-info" />
+        </div>
+    </form>

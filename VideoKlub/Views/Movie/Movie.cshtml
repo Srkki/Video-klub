@@ -1,0 +1,54 @@
+﻿@model IEnumerable<VideoKlub.ViewModels.MovieDetailsViewModel>
+@{
+    ViewData["Title"] = "Movie details";
+}
+
+<div class="pb-2">
+    <a asp-controller="home" asp-action="index" class="btn btn-primary">Back</a>
+    <a asp-controller="movie" asp-action="create" class="btn btn-primary">Add movie</a>
+</div>
+
+<div class="my-3 pb-3 border-bottom">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Genre</th>
+                <th>Actor</th>
+                <th>Director</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VideoKlub.ViewModels.MovieDetailsViewModel item in Model)
+            {
+                <tr style="color: @item.MovieGenre.GenreColor">
+                    <td>
+                        @item.MovieMovie.MovieName
+                    </td>
+                    <td>
+                        @item.MovieGenre.GenreName
+                    </td>
+                    <td>
+                        @item.MovieActor.FirstName @item.MovieActor.LastName
+                    </td>
+                    <td>
+                        @item.MovieDirector.FirstName @item.MovieDirector.LastName
+                    </td>
+                    <td>
+                        <a asp-controller="movie" asp-action="EditMovie" asp-route-id="@item.MovieMovie.MovieId"
+                           class="btn">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a asp-controller="movie" asp-action="DeleteMovie" asp-route-id="@item.MovieMovie.MovieId"
+                           class="btn" onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

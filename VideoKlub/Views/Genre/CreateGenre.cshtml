@@ -1,0 +1,16 @@
+﻿@model Genre
+
+<a asp-controller="movie" asp-action="create" class="btn btn-primary">Back</a>
+
+<form asp-controller="genre" asp-action="AddGenre" method="POST" class="my-1">
+    <label asp-for="@Model.GenreName"></label>
+    <input asp-for="@Model.GenreName" type="text" class="form-control" placeholder="Enter genre" />
+    <span asp-validation-for="@Model.GenreName" class="text-danger"></span>
+
+    <label asp-for="@Model.GenreColor"></label>
+    <input asp-for="@Model.GenreColor" type="color" />
+
+    <div class="mb-1">
+        <input type="submit" class="btn btn-info" />
+    </div>
+</form>

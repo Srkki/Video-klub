@@ -1,0 +1,33 @@
+﻿@model VideoKlub.ViewModels.MovieDetailsViewModel
+
+<a asp-controller="movie" asp-action="movie" class="btn btn-primary">Back</a>
+
+<h4>Edit movie:</h4>
+<form asp-controller="movie" asp-action="SaveUpdate" method="POST">
+    <div class="row">
+        <div class="col-4">
+            <input asp-for="@Model.MovieMovie.MovieName" class="form-control" type="text" value="@Model.MovieMovie.MovieName" />
+        </div>
+        <div class="col">
+            <select class="w-100 form-control" asp-for="@Model.MovieMovie.DirectorId" asp-items="@(new SelectList(Model.Directors, "DirectorId", "FirstName"))">
+                <option>Select director</option>
+            </select>
+            <span asp-validation-for="@Model.MovieDirector.DirectorId" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <select class="w-100 form-control" asp-for="@Model.MovieMovie.GenreId" asp-items="@(new SelectList(Model.Genres, "GenreId", "GenreName"))">
+                <option>Select genre</option>
+            </select>
+        </div>
+        <div class="col">
+            <select class="w-100 form-control" asp-for="@Model.MovieMovie.ActorId" asp-items="@(new SelectList(Model.Actors, "ActorId", "FirstName"))">
+                <options>Select actor</options>
+            </select>
+        </div>
+
+        <input asp-for="@Model.MovieMovie.MovieId" type="hidden" value="@Model.MovieMovie.MovieId" />
+        <div class="col-1">
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </div>
+    </div>
+</form>
