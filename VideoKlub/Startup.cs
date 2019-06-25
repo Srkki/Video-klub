@@ -53,10 +53,6 @@ namespace VideoKlub
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-        //services.AddScoped<IDirectorRepository, DirectorRepository>();
-            services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddScoped<IGenreRepository, GenreRepository>();
-            //services.AddScoped<IActorRepository, ActorRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository <>));
         }
 
